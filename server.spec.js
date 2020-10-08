@@ -26,7 +26,7 @@ describe('server.js', () => {
       const expectedStatusCode = 200;
       const response = await request(server).delete('/heros/1');
       const updatedDb = await request(server).get('/heros')
-      console.log(response)
+      // console.log(response)
 
       expect(response.status).toEqual(expectedStatusCode);
       expect(response.body).toBe(1)
@@ -38,9 +38,7 @@ describe('server.js', () => {
             await db.add({name:'dust', powers:'none'});
 
             const heros = await dbConfig('heros')
-
             expect(heros).toHaveLength(3)
-
     });
   });
 });
