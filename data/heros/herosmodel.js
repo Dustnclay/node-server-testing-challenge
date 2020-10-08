@@ -2,7 +2,8 @@ const db = require('./dbconfig')
 
 module.exports = {
     find,
-    remove
+    remove,
+    add
 }
 
 function find () {
@@ -13,4 +14,9 @@ function remove (id) {
     return db('heros')
         .where({id})
         .del()
+}
+
+function add(body){
+    return db('heros')
+        .insert(body)
 }

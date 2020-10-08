@@ -1,5 +1,8 @@
 
 const request = require('supertest'); 
+const dbConfig = require('./data/heros/dbconfig')
+
+const db = require('./data/heros/herosmodel') 
 
 const server = require('./server'); 
 
@@ -28,28 +31,16 @@ describe('server.js', () => {
       expect(response.status).toEqual(expectedStatusCode);
       expect(response.body).toBe(1)
       expect(updatedDb.body).toHaveLength(2)
+          })
 
-      // same test using promise .then() instead of async/await
-    //   let response;
-    //   return request(server).get('/').then(res => {
-    //     response = res;
+          it('/add request', async () => {
 
-    //     expect(response.status).toEqual(expectedStatusCode);
-    //   })
-    // });
+            await db.add({name:'dust', powers:'none'});
 
-    // it('should return a JSON object from the index route', async () => {
-    //   const expectedBody = { api: 'running' };
+            const heros = await dbConfig('heros')
 
-    //   const response = await request(server).get('/');
+            expect(heros).toHaveLength(3)
 
-    //   expect(response.body).toEqual(expectedBody);
-    // });
-
-    // it('should return a JSON object from the index route', async () => {
-    //   const response = await request(server).get('/');
-
-    //   expect(response.type).toEqual('application/json');
     });
   });
 });
