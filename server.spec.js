@@ -1,30 +1,33 @@
-/*
-- when making a GET request to the `/` endpoint 
-  the API should respond with status code 200 
-  and the following JSON object: `{ api: 'running' }`.
-*/
-const request = require('supertest'); // calling it "request" is a common practice
 
-const server = require('./server'); // this is our first red, file doesn't exist yet
+const request = require('supertest'); 
 
-const express = require('express')
+const server = require('./server'); 
 
 describe('server.js', () => {
-  // http calls made with supertest return promises, we can use async/await if desired
+
   describe('index route', () => {
 
     it('should be in testing', async () => {
       expect(process.env.DB_ENV).toBe("testing")
     })
     
-    it('should return an OK status code from the index route', async () => {
+    it('/GET request', async () => {
       const expectedStatusCode = 200;
-
-    //   // do a get request to our api (server.js) and inspect the response
       const response = await request(server).get('/heros');
 
       expect(response.status).toEqual(expectedStatusCode);
       expect(response.body).toHaveLength(3)
+    })
+
+          it('/DELETE request', async () => {
+      const expectedStatusCode = 200;
+      const response = await request(server).delete('/heros/1');
+      const updatedDb = await request(server).get('/heros')
+      console.log(response)
+
+      expect(response.status).toEqual(expectedStatusCode);
+      expect(response.body).toBe(1)
+      expect(updatedDb.body).toHaveLength(2)
 
       // same test using promise .then() instead of async/await
     //   let response;
